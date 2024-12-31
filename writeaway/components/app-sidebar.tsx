@@ -1,74 +1,175 @@
 "use client"
 
-import { useState } from "react"
-import { Home, Inbox, Calendar, Search, Settings } from "lucide-react"
+import * as React from "react"
+import {
+  AudioWaveform,
+  BookOpen,
+  Bot,
+  Command,
+  Frame,
+  GalleryVerticalEnd,
+  Map,
+  PieChart,
+  Settings2,
+  SquareTerminal,
+} from "lucide-react"
+
+import { NavMain } from "@/components/nav-main"
+import { NavProjects } from "@/components/nav-projects"
+import { NavUser } from "@/components/nav-user"
+import { TeamSwitcher } from "@/components/team-switcher"
 import {
   Sidebar,
   SidebarContent,
-  SidebarHeader,
   SidebarFooter,
-  SidebarGroup,
-  SidebarGroupLabel,
-  SidebarGroupContent,
-  SidebarMenu,
-  SidebarMenuItem,
-  SidebarMenuButton,
-  SidebarTrigger,
+  SidebarHeader,
+  SidebarRail,
 } from "@/components/ui/sidebar"
 
-const items = [
-  { title: "Project - 1", url: "#" },
-  { title: "Project - 2", url: "#" },
-  { title: "Project - 3", url: "#" },
-  { title: "Project - 4", url: "#" },
-  { title: "Project - 5", url: "#" }
-]
+// This is sample data.
+const data = {
+  user: {
+    name: "shadcn",
+    email: "m@example.com",
+    avatar: "/avatars/shadcn.jpg",
+  },
+  teams: [
+    {
+      name: "Acme Inc",
+      logo: GalleryVerticalEnd,
+      plan: "Enterprise",
+    },
+    {
+      name: "Acme Corp.",
+      logo: AudioWaveform,
+      plan: "Startup",
+    },
+    {
+      name: "Evil Corp.",
+      logo: Command,
+      plan: "Free",
+    },
+  ],
+  navMain: [
+    {
+      title: "Playground",
+      url: "#",
+      icon: SquareTerminal,
+      isActive: true,
+      items: [
+        {
+          title: "History",
+          url: "#",
+        },
+        {
+          title: "Starred",
+          url: "#",
+        },
+        {
+          title: "Settings",
+          url: "#",
+        },
+      ],
+    },
+    {
+      title: "Models",
+      url: "#",
+      icon: Bot,
+      items: [
+        {
+          title: "Genesis",
+          url: "#",
+        },
+        {
+          title: "Explorer",
+          url: "#",
+        },
+        {
+          title: "Quantum",
+          url: "#",
+        },
+      ],
+    },
+    {
+      title: "Documentation",
+      url: "#",
+      icon: BookOpen,
+      items: [
+        {
+          title: "Introduction",
+          url: "#",
+        },
+        {
+          title: "Get Started",
+          url: "#",
+        },
+        {
+          title: "Tutorials",
+          url: "#",
+        },
+        {
+          title: "Changelog",
+          url: "#",
+        },
+      ],
+    },
+    {
+      title: "Settings",
+      url: "#",
+      icon: Settings2,
+      items: [
+        {
+          title: "General",
+          url: "#",
+        },
+        {
+          title: "Team",
+          url: "#",
+        },
+        {
+          title: "Billing",
+          url: "#",
+        },
+        {
+          title: "Limits",
+          url: "#",
+        },
+      ],
+    },
+  ],
+  projects: [
+    {
+      name: "Design Engineering",
+      url: "#",
+      icon: Frame,
+    },
+    {
+      name: "Sales & Marketing",
+      url: "#",
+      icon: PieChart,
+    },
+    {
+      name: "Travel",
+      url: "#",
+      icon: Map,
+    },
+  ],
+}
 
-export function AppSidebar() {
-  const [isOpen, setIsOpen] = useState(true)
-
+export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
-    <>
-      {isOpen ? (
-        <Sidebar side="left" variant="sidebar" collapsible="icon" className="sidebar">
-          <SidebarHeader className="sidebar-header">
-            <div className="flex items-center justify-end w-full">
-              <SidebarTrigger 
-                className="sidebar-trigger" 
-                onClick={() => setIsOpen(false)} 
-              />
-            </div>
-          </SidebarHeader>
-          <SidebarContent className="sidebar-content">
-            <SidebarGroup className="sidebar-group">
-              <SidebarGroupLabel className="sidebar-group-label">Application</SidebarGroupLabel>
-              <SidebarGroupContent className="sidebar-group-content">
-                <SidebarMenu className="sidebar-menu">
-                  {items.map((item) => (
-                    <SidebarMenuItem key={item.title} className="sidebar-menu-item">
-                      <SidebarMenuButton asChild className="sidebar-menu-button">
-                        <a href={item.url} className="flex items-center space-x-3">
-                          <span className="text-sm font-medium">{item.title}</span>
-                        </a>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                  ))}
-                </SidebarMenu>
-              </SidebarGroupContent>
-            </SidebarGroup>
-          </SidebarContent>
-          <SidebarFooter className="sidebar-footer">
-            <p className="text-sm text-gray-500">© 2024 WriteAway</p>
-          </SidebarFooter>
-        </Sidebar>
-      ) : (
-        <div
-          onClick={() => setIsOpen(true)}
-          className="fixed left-4 top-4 p-2 rounded-md cursor-pointer z-50"
-        >
-          <SidebarTrigger className="sidebar-trigger" />
-        </div>
-      )}
-    </>
+    <Sidebar collapsible="icon" {...props}>
+      <SidebarHeader>
+        <TeamSwitcher teams={data.teams} />
+      </SidebarHeader>
+      <SidebarContent>
+        <NavMain items={data.navMain} />
+        <NavProjects projects={data.projects} />
+      </SidebarContent>
+      <SidebarFooter>
+        <NavUser user={data.user} />
+      </SidebarFooter>
+      <SidebarRail />
+    </Sidebar>
   )
 }

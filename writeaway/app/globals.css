@@ -247,3 +247,58 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+/* globals.css */
+
+/* SceneBox styles */
+.scene-box {
+  @apply relative
+    min-w-[200px]
+    min-h-[120px]
+    p-3
+    border
+    border-gray-300
+    bg-white
+    shadow-sm
+    rounded-xl; /* ensures corners are truly rounded */
+}
+
+/* Expand icon in the top-right corner */
+.scene-box__expand-button {
+  @apply absolute top-2 right-2 cursor-pointer;
+}
+
+/* Popover content above the SceneBox */
+.scene-box__popover-content {
+  @apply w-40 flex flex-col space-y-2;
+}
+
+/* Main toolbox (bottom “spaceship” or “jar”) */
+.toolbox2-container {
+  @apply fixed 
+    bottom-4
+    left-1/2
+    -translate-x-1/2
+    z-50
+    bg-gray-200
+    shadow-lg
+    flex
+    items-center
+    justify-evenly
+    px-4
+    h-[60px]
+    w-[300px]
+    rounded-tl-3xl
+    rounded-tr-3xl
+    rounded-bl-full
+    rounded-br-full;
+}
+
+.toolbox2-content {
+  @apply w-44 text-sm;
+}
+
+/* A vertical separator inside Toolbox2 if you like */
+.toolbox2-separator {
+  @apply w-[1px] h-6 bg-gray-400;
+}

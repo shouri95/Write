@@ -1,20 +1,42 @@
-"use client"
+import { AppSidebar } from "@/components/app-sidebar"
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb"
+import { Separator } from "@/components/ui/separator"
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@/components/ui/sidebar"
+import Canvas from "@/components/canvas";
+import "./globals.css"
 
-import Topbar from "@/components/topbar"
-import Canvas from "@/components/canvas"
+export const metadata = {
+  title: "WriteAway",
+  description: "Write your stuff away",
+}
 
 export default function Page() {
   return (
-    <div className="relative w-screen h-screen">
-      {/* Topbar pinned at the top. Higher z-index so it appears above canvas. */}
-      <div className="absolute top-0 left-0 right-0 z-10">
-        <Topbar />
-      </div>
-
-      {/* Full-screen canvas behind the top bar */}
-      <div className="h-full w-full">
+    <SidebarInset>
+      <header className="flex h-16 shrink-0 items-center gap-2 px-4">
+        <SidebarTrigger className="-ml-1" />
+        <Separator orientation="vertical" className="mr-2 h-4" />
         <Canvas />
+      </header>
+      <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+        <div className="grid auto-rows-min gap-4 md:grid-cols-3">
+          <div className="aspect-video rounded-xl bg-muted/50" />
+          <div className="aspect-video rounded-xl bg-muted/50" />
+          <div className="aspect-video rounded-xl bg-muted/50" />
+        </div>
+        <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" />
       </div>
-    </div>
+    </SidebarInset>
   )
 }

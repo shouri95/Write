@@ -1,5 +1,7 @@
-import { SidebarProvider } from "@/components/ui/sidebar"
+import { SidebarProvider, Sidebar, SidebarInset } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/app-sidebar"
+
+// 1) Make sure to import the global styles here
 import "./globals.css"
 
 export const metadata = {
@@ -14,14 +16,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="overflow-hidden">
-        {/* The provider gives us collapsible sidebar behavior */}
+      <body>
         <SidebarProvider defaultOpen>
-          {/* Sidebar stays fixed on the left; everything else goes to the right */}
           <AppSidebar />
-
-          {/* Main content area (whatever is in your app/page.tsx, etc.) */}
-          {children}
+          <SidebarInset>
+            {children}
+          </SidebarInset>
         </SidebarProvider>
       </body>
     </html>
