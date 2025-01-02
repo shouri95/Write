@@ -35,11 +35,6 @@ export default function RootLayout({
               <main className="flex flex-1 flex-col w-full h-full">
                 <Canvas />
               </main>
-
-              {/* Toolbox2 at the middle bottom of the page */}
-              <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 z-10">
-                <Toolbox2 />
-              </div>
             </div>
             {children}
           </SidebarInset>
