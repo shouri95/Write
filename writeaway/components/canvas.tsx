@@ -17,6 +17,7 @@ import ReactFlow, {
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 import { SceneBox } from './scenebox';
+import { toolboxActions } from '@/utils/toolbox-actions';
 
 // Default starting nodes
 const initialNodes: Node[] = [

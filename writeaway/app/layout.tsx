@@ -1,13 +1,13 @@
-import { SidebarProvider, Sidebar, SidebarInset } from "@/components/ui/sidebar"
-import { AppSidebar } from "@/components/app-sidebar"
+'use client'
 
-// 1) Make sure to import the global styles here
+import { SidebarProvider, Sidebar, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar"
+import { AppSidebar } from "@/components/sidebar/app-sidebar"
+import { Separator } from "@/components/ui/separator";
+import Canvas from "@/components/canvas";
+import { Plus, Trash2, Edit, Link, Settings } from 'lucide-react'
+import { Button } from "@/components/ui/button"
+import Toolbox2 from "@/components/toolbox2"; // Import the Toolbox2 component
 import "./globals.css"
-
-export const metadata = {
-  title: "WriteAway",
-  description: "Write your stuff away",
-}
 
 export default function RootLayout({
   children,
@@ -15,11 +15,34 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body>
+    <html lang="en" className="h-full">
+      <body className="h-full flex">
         <SidebarProvider defaultOpen>
           <AppSidebar />
-          <SidebarInset>
+          <SidebarInset className="flex-1 flex flex-col min-h-screen">
+            <div className="h-full flex flex-col relative">
+              {/* Sidebar trigger button in top left */}
+              <div className="absolute top-4 left-4 z-10">
+                <SidebarTrigger className="-ml-1" />
+              </div>
+              
+              {/* View Screenplay button in top right */}
+              <div className="absolute top-4 right-4 z-10">
+                <a className="action-btn px-4 py-2 bg-gray text-white rounded hover:opacity-80" href="/login">
+                  View Screenplay
+                </a>
+              </div>
+              
+              {/* Main content area */}
+              <main className="flex flex-1 flex-col w-full h-full">
+                <Canvas />
+              </main>
+
+              {/* Toolbox2 at the middle bottom of the page */}
+              <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 z-10">
+                <Toolbox2 />
+              </div>
+            </div>
             {children}
           </SidebarInset>
         </SidebarProvider>
