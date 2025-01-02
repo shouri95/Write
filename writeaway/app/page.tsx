@@ -17,9 +17,7 @@ export default function Page() {
         View Screenplay
       </a>
       {/* Main content area */}
-      <main className="flex flex-1 flex-col w-full h-full pt-16">
-        <Canvas />
-      </main>
+
     </div>
   );
 }

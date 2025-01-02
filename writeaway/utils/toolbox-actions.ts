@@ -1,74 +1,73 @@
 // utils/toolbox-actions.ts
+import { Dispatch, SetStateAction, useEffect } from "react";
+import { Node, Edge } from "reactflow";
+import { v4 as uuidv4 } from 'uuid';
 
-import { Node, addEdge, Edge } from 'reactflow';
+let setNodesRef: Dispatch<SetStateAction<Node[]>> | null = null;
+let setEdgesRef: Dispatch<SetStateAction<Edge[]>> | null = null;
 
-let nextNodeId = 3; // Start from 3 since you have '1' and '2' already in initialNodes
+export function initToolboxActions(
+    setNodes: Dispatch<SetStateAction<Node[]>>,
+    setEdges: Dispatch<SetStateAction<Edge[]>>
+) {
+    setNodesRef = setNodes;
+    setEdgesRef = setEdges;
+}
 
-export const toolboxActions = {
-  onAdd: (
-    nodes: Node[],
-    setNodes: (nodes: Node[]) => void,
-    edges: Edge[],
-    setEdges: (edges: Edge[]) => void
-  ) => {
-    const newNode: Node = {
-      id: `${nextNodeId}`,
-      type: 'sceneBox',
-      position: { x: Math.random() * 500, y: Math.random() * 500 }, // Adjust as needed for better placement
-      data: { label: `Scene ${nextNodeId}` },
-    };
+export function setupToolboxActions(
+    setNodes: Dispatch<SetStateAction<Node[]>>,
+    setEdges: Dispatch<SetStateAction<Edge[]>>
+) {
+    useEffect(() => {
+        initToolboxActions(setNodes, setEdges);
+    }, [setNodes, setEdges]);
+}
 
-    setNodes([...nodes, newNode]);
-    nextNodeId++;
-  },
+export function onAdd() {
+    if (!setNodesRef || !setEdgesRef) return;
 
-  onDelete: (
-    selectedNodeId: string | null,
-    nodes: Node[],
-    setNodes: (nodes: Node[]) => void,
-    edges: Edge[],
-    setEdges: (edges: Edge[]) => void
-  ) => {
-    if (!selectedNodeId) return;
+    setNodesRef((prevNodes) => {
+        const newNodeNumber = prevNodes.length + 1;
+        const newNode = {
+            id: `node-${newNodeNumber}`,
+            type: 'sceneBox', // Changed from 'default' to 'sceneBox'
+            position: { x: Math.random() * 500, y: Math.random() * 500 },
+            data: {
+                number: newNodeNumber,
+                content: '',
+                label: `Scene ${newNodeNumber}`
+            }
+        };
 
-    setNodes(nodes.filter((node) => node.id !== selectedNodeId));
-    setEdges(edges.filter((edge) => edge.source !== selectedNodeId && edge.target !== selectedNodeId));
-  },
+        return [...prevNodes, newNode];
+    });
+}
 
-  onEdit: () => {
-    // Edit logic here (currently not implemented as it requires more specific requirements)
-    console.log('Editing item');
-  },
+export function onDelete() {
+    if (!setNodesRef || !setEdgesRef) return;
 
-  onLink: (
-    selectedNodeId: string | null,
-    nodes: Node[],
-    setNodes: (nodes: Node[]) => void,
-    edges: Edge[],
-    setEdges: (edges: Edge[]) => void
-  ) => {
-    if (!selectedNodeId) return;
-  
-    // Find the first node that isn't the selected one. This is a simplistic way to choose a target.
-    const targetNode = nodes.find((node) => node.id !== selectedNodeId);
-  
-    if (!targetNode) {
-      console.log("No other node to link to.");
-      return;
-    }
-  
-    const newEdge: Edge = {
-      id: `e${selectedNodeId}-${targetNode.id}`,
-      source: selectedNodeId,
-      target: targetNode.id,
-      type: 'smoothstep', // Or your preferred edge type
-      animated: true, // Optional
-    };
-  
-    // Add the edge only if it doesn't already exist
-    if (!edges.find(edge => edge.id === newEdge.id)) {
-      setEdges([...edges, newEdge]);
-    }
-  },
-  
-};
+    setNodesRef((prevNodes) => {
+        if (prevNodes.length === 0) {
+            return prevNodes;
+        }
+
+        // Example: delete the *last* node in the array
+        const lastNode = prevNodes[prevNodes.length - 1];
+
+        if (setEdgesRef) {
+            setEdgesRef((prevEdges) => {
+                return prevEdges.filter(edge => edge.source !== lastNode.id && edge.target !== lastNode.id);
+            });
+        }
+
+        return prevNodes.slice(0, -1);
+    });
+}
+
+export function onEdit() {
+    console.log("Editing item");
+}
+
+export function onLink() {
+    console.log("Linking item");
+}

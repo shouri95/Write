@@ -1,13 +1,13 @@
-'use client'
+"use client";
 
 import { SidebarProvider, Sidebar, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/sidebar/app-sidebar"
 import { Separator } from "@/components/ui/separator";
 import Canvas from "@/components/canvas";
-import { Plus, Trash2, Edit, Link, Settings } from 'lucide-react'
-import { Button } from "@/components/ui/button"
-import Toolbox2 from "@/components/toolbox2"; // Import the Toolbox2 component
+import Toolbox2 from "@/components/toolbox2"; 
 import "./globals.css"
+import Toolbox1 from "@/components/toolbox1"; 
+
 
 export default function RootLayout({
   children,
@@ -31,9 +31,7 @@ export default function RootLayout({
                 <a className="action-btn px-4 py-2 bg-gray text-white rounded hover:opacity-80" href="/login">
                   View Screenplay
                 </a>
-              </div>
-              
-              {/* Main content area */}
+              </div>              
               <main className="flex flex-1 flex-col w-full h-full">
                 <Canvas />
               </main>
