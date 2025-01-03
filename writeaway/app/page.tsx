@@ -3,6 +3,8 @@ import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import Canvas from "@/components/canvas";
 import Topbar from "@/components/topbar";
+import { SettingsDialog } from "@/components/settings-dialog"
+
 
 export const metadata = {
   title: "WriteAway",
@@ -13,11 +15,8 @@ export default function Page() {
   return (
     <div className="h-full flex flex-col">
       {/* Topbar */}
-      <a className="action-btn px-4 py-2 bg-gray text-white rounded hover:opacity-80" href="/login">
-        View Screenplay
-      </a>
-      {/* Main content area */}
-
     </div>
+    
+    
   );
 }

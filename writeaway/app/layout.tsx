@@ -7,6 +7,8 @@ import Canvas from "@/components/canvas";
 import Toolbox2 from "@/components/toolbox2"; 
 import "./globals.css"
 import Toolbox1 from "@/components/toolbox1"; 
+import { SettingsDialog } from "@/components/settings-dialog"
+
 
 
 export default function RootLayout({
@@ -24,14 +26,8 @@ export default function RootLayout({
               {/* Sidebar trigger button in top left */}
               <div className="absolute top-4 left-4 z-10">
                 <SidebarTrigger className="-ml-1" />
-              </div>
-              
-              {/* View Screenplay button in top right */}
-              <div className="absolute top-4 right-4 z-10">
-                <a className="action-btn px-4 py-2 bg-gray text-white rounded hover:opacity-80" href="/login">
-                  View Screenplay
-                </a>
               </div>              
+              {/* View Screenplay button in top right */}             
               <main className="flex flex-1 flex-col w-full h-full">
                 <Canvas />
               </main>

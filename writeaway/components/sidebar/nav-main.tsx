@@ -1,7 +1,7 @@
 "use client"
 
-import { ChevronRight, type LucideIcon } from "lucide-react"
-
+import { ChevronRight, Folder, FileText, Folders } from "lucide-react"
+import { Project } from "./types"
 import {
   Collapsible,
   CollapsibleContent,
@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/collapsible"
 import {
   SidebarGroup,
-  SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
@@ -18,50 +17,56 @@ import {
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar"
 
-export function NavMain({
-  items,
-}: {
-  items: {
-    title: string
-    url: string
-    icon?: LucideIcon
-    isActive?: boolean
-    items?: {
-      title: string
-      url: string
-    }[]
-  }[]
-}) {
+interface NavMainProps {
+  items: Project[];
+}
+
+export function NavMain({ items }: NavMainProps) {
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Projects</SidebarGroupLabel>
       <SidebarMenu>
-        {items.map((item) => (
-          <Collapsible
-            key={item.title}
-            asChild
-            defaultOpen={item.isActive}
-            className="group/collapsible"
-          >
+        {items.map((project) => (
+          <Collapsible key={project.id} asChild className="group/collapsible">
             <SidebarMenuItem>
               <CollapsibleTrigger asChild>
-                <SidebarMenuButton tooltip={item.title}>
-                  {item.icon && <item.icon />}
-                  <span>{item.title}</span>
+                <SidebarMenuButton>
+                  <Folder className="h-4 w-4" />
+                  <span>{project.name}</span>
                   <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                 </SidebarMenuButton>
               </CollapsibleTrigger>
               <CollapsibleContent>
                 <SidebarMenuSub>
-                  {item.items?.map((subItem) => (
-                    <SidebarMenuSubItem key={subItem.title}>
-                      <SidebarMenuSubButton asChild>
-                        <a href={subItem.url}>
-                          <span>{subItem.title}</span>
-                        </a>
-                      </SidebarMenuSubButton>
+                  <SidebarMenuSubItem>
+                    <SidebarMenuSubButton>
+                      <FileText className="h-4 w-4" />
+                      <span>{project.sections.screenplay.title}</span>
+                    </SidebarMenuSubButton>
+                  </SidebarMenuSubItem>
+
+                  <Collapsible asChild className="group/scenes">
+                    <SidebarMenuSubItem>
+                      <CollapsibleTrigger asChild>
+                        <SidebarMenuSubButton>
+                          <Folders className="h-4 w-4" />
+                          <span>{project.sections.scenes.title}</span>
+                          <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/scenes:rotate-90" />
+                        </SidebarMenuSubButton>
+                      </CollapsibleTrigger>
+                      <CollapsibleContent>
+                        <SidebarMenuSub>
+                          {project.sections.scenes.items.map((scene) => (
+                            <SidebarMenuSubItem key={scene.id}>
+                              <SidebarMenuSubButton>
+                                <FileText className="h-4 w-4" />
+                                <span>{scene.name}</span>
+                              </SidebarMenuSubButton>
+                            </SidebarMenuSubItem>
+                          ))}
+                        </SidebarMenuSub>
+                      </CollapsibleContent>
                     </SidebarMenuSubItem>
-                  ))}
+                  </Collapsible>
                 </SidebarMenuSub>
               </CollapsibleContent>
             </SidebarMenuItem>
@@ -69,5 +74,5 @@ export function NavMain({
         ))}
       </SidebarMenu>
     </SidebarGroup>
-  )
+  );
 }

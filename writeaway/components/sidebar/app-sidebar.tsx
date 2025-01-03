@@ -1,23 +1,10 @@
 "use client"
 
 import * as React from "react"
-import {
-  AudioWaveform,
-  BookOpen,
-  Bot,
-  Command,
-  Frame,
-  GalleryVerticalEnd,
-  Map,
-  PieChart,
-  Settings2,
-  SquareTerminal,
-} from "lucide-react"
-
+import { Plus, Folder, GalleryVerticalEnd, AudioWaveform, Command, SquareTerminal, Bot, BookOpen, Settings2, Frame, PieChart, Map } from "lucide-react"
 import { NavMain } from "@/components/sidebar/nav-main"
-import { NavProjects } from "@/components/sidebar/nav-projects"
 import { NavUser } from "@/components/sidebar/nav-user"
-import { TeamSwitcher } from "@/components/sidebar/team-switcher"
+import { Project } from "./types"
 import {
   Sidebar,
   SidebarContent,
@@ -25,6 +12,7 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar"
+import { Button } from "@/components/ui/button"
 
 // This is sample data.
 const data = {
@@ -52,23 +40,42 @@ const data = {
   ],
   navMain: [
     {
-      title: "Playground",
+      title: "Project",
       url: "#",
       icon: SquareTerminal,
       isActive: true,
       items: [
+        {
+          title: "Scenes",
+          icon: SquareTerminal,
+          isActive: true,           
+          items: [
+            {
+              title: "Scene - 1",
+              url: "#",
+            },
+            {
+              title: "Scene - 2", 
+              url: "#",
+            },
+            {
+              title: "Scene - 3",
+              url: "#",
+            }
+          ]
+        },
         {
           title: "History",
           url: "#",
         },
         {
           title: "Starred",
-          url: "#",
+          url: "#", 
         },
         {
           title: "Settings",
           url: "#",
-        },
+        }
       ],
     },
     {
@@ -157,19 +164,59 @@ const data = {
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const [projects, setProjects] = React.useState<Project[]>([]);
+
+  const handleAddProject = () => {
+    const newProject: Project = {
+      id: `proj-${Date.now()}`,
+      name: `Project ${projects.length + 1}`,
+      sections: {
+        screenplay: {
+          title: "Screenplay",
+          content: ""
+        },
+        scenes: {
+          title: "Scenes",
+          items: [
+            { id: "scene-1", name: "Scene 1", content: "" },
+            { id: "scene-2", name: "Scene 2", content: "" },
+            { id: "scene-3", name: "Scene 3", content: "" }
+          ]
+        }
+      }
+    };
+    setProjects([...projects, newProject]);
+  };
+
   return (
     <Sidebar collapsible="icon" {...props}>
-      <SidebarHeader>
-        <TeamSwitcher teams={data.teams} />
+      <SidebarHeader className="p-2">
+        <div className="flex items-center justify-between w-full">
+          <div className="flex items-center gap-3 pl-2">
+            <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-primary bg-primary text-primary-foreground font-bold">
+              W
+            </div>
+            <span className="font-bold text-xl group-data-[state=collapsed]:hidden">
+              WriteAway
+            </span>
+          </div>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="group-data-[state=collapsed]:hidden"
+            onClick={handleAddProject}
+          >
+            <Plus className="h-4 w-4" />
+          </Button>
+        </div>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
-        <NavProjects projects={data.projects} />
+        <NavMain items={projects} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser user={{ name: "User", email: "user@example.com", avatar: "" }} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
-  )
+  );
 }
