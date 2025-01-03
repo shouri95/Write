@@ -38,6 +38,7 @@ interface Scene {
 interface Project {
   id: string;
   name: string;
+  canvas: string; // Add canvas property
   screenplay: {
     content: string;
   };
@@ -53,6 +54,7 @@ export function NavProjects() {
     const newProject: Project = {
       id: `proj-${Date.now()}`,
       name: `Project ${projects.length + 1}`,
+      canvas: "", // Initialize empty canvas
       screenplay: { content: "" },
       scenes: [
         { id: "scene-1", name: "Scene - 1", content: "" },

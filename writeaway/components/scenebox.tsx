@@ -73,7 +73,7 @@ export function SceneBox({
 
         {/* Text area */}
         <Textarea
-          className="w-full h-full p-6 pt-8 resize-none border-none focus:ring-0"
+          className="w-full font-['ScreenplayFont'] h-full p-6 pt-8 resize-none border-none focus:ring-0"
           value={content}
           onChange={(e) => onContentChange(e.target.value)}
           placeholder="Enter scene description..."

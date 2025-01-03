@@ -171,6 +171,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       id: `proj-${Date.now()}`,
       name: `Project ${projects.length + 1}`,
       sections: {
+        canvas: {
+          title: "Canvas",
+          content: ""
+        },
         screenplay: {
           title: "Screenplay",
           content: ""
@@ -185,7 +189,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         }
       }
     };
-    setProjects([...projects, newProject]);
+    setProjects(prevProjects => [...prevProjects, newProject]);
   };
 
   return (

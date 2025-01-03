@@ -1,6 +1,6 @@
 "use client"
 
-import { ChevronRight, Folder, FileText, Folders } from "lucide-react"
+import { ChevronRight, Folder, FileText, Folders, Frame } from "lucide-react"
 import { Project } from "./types"
 import {
   Collapsible,
@@ -25,7 +25,7 @@ export function NavMain({ items }: NavMainProps) {
   return (
     <SidebarGroup>
       <SidebarMenu>
-        {items.map((project) => (
+        {items?.map((project) => (
           <Collapsible key={project.id} asChild className="group/collapsible">
             <SidebarMenuItem>
               <CollapsibleTrigger asChild>
@@ -37,6 +37,15 @@ export function NavMain({ items }: NavMainProps) {
               </CollapsibleTrigger>
               <CollapsibleContent>
                 <SidebarMenuSub>
+                  {project.sections?.canvas && (
+                    <SidebarMenuSubItem>
+                      <SidebarMenuSubButton>
+                        <Frame className="h-4 w-4" />
+                        <span>{project.sections.canvas.title}</span>
+                      </SidebarMenuSubButton>
+                    </SidebarMenuSubItem>
+                  )}
+
                   <SidebarMenuSubItem>
                     <SidebarMenuSubButton>
                       <FileText className="h-4 w-4" />
