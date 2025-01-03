@@ -2,11 +2,13 @@
 
 import { ChevronRight, Folder, FileText, Folders, Frame } from "lucide-react"
 import { Project } from "./types"
+import { useRouter } from "next/navigation"  // Add this import at the top
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible"
+import { Button } from "@/components/ui/button" // Add Button import
 import {
   SidebarGroup,
   SidebarMenu,
@@ -19,9 +21,12 @@ import {
 
 interface NavMainProps {
   items: Project[];
+  onSectionSelect: (projectId: string, sectionType: string) => void;
 }
 
-export function NavMain({ items }: NavMainProps) {
+export function NavMain({ items, onSectionSelect }: NavMainProps) {
+  const router = useRouter();  // Add router
+
   return (
     <SidebarGroup>
       <SidebarMenu>
@@ -39,37 +44,61 @@ export function NavMain({ items }: NavMainProps) {
                 <SidebarMenuSub>
                   {project.sections?.canvas && (
                     <SidebarMenuSubItem>
-                      <SidebarMenuSubButton>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="w-full justify-start gap-2 px-2 py-1 h-9 text-sm font-normal"
+                        onClick={() => {
+                          onSectionSelect(project.id, 'canvas');
+                          router.push('/canvas');
+                        }}
+                      >
                         <Frame className="h-4 w-4" />
-                        <span>{project.sections.canvas.title}</span>
-                      </SidebarMenuSubButton>
+                        Canvas
+                      </Button>
                     </SidebarMenuSubItem>
                   )}
 
                   <SidebarMenuSubItem>
-                    <SidebarMenuSubButton>
-                      <FileText className="h-4 w-4" />
-                      <span>{project.sections.screenplay.title}</span>
-                    </SidebarMenuSubButton>
+                  <Button
+                      variant="ghost"
+                      size="sm"
+                      className="w-full justify-start gap-2 px-2 py-1 h-9 text-sm font-normal"
+                      onClick={() => {
+                        onSectionSelect(project.id, 'screenplay');
+                        router.push('/screenplay');
+                      }}
+                    >
+                      <Frame className="h-4 w-4" />
+                        Screenplay
+                      </Button>
                   </SidebarMenuSubItem>
 
                   <Collapsible asChild className="group/scenes">
                     <SidebarMenuSubItem>
                       <CollapsibleTrigger asChild>
-                        <SidebarMenuSubButton>
-                          <Folders className="h-4 w-4" />
-                          <span>{project.sections.scenes.title}</span>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="w-full justify-start"
+                        >
+                          <Folders className="h-4 w-4 mr-2" />
+                          <span>Scenes</span>
                           <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/scenes:rotate-90" />
-                        </SidebarMenuSubButton>
+                        </Button>
                       </CollapsibleTrigger>
                       <CollapsibleContent>
                         <SidebarMenuSub>
                           {project.sections.scenes.items.map((scene) => (
                             <SidebarMenuSubItem key={scene.id}>
-                              <SidebarMenuSubButton>
-                                <FileText className="h-4 w-4" />
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                className="w-full justify-start pl-6"
+                              >
+                                <FileText className="h-4 w-4 mr-2" />
                                 <span>{scene.name}</span>
-                              </SidebarMenuSubButton>
+                              </Button>
                             </SidebarMenuSubItem>
                           ))}
                         </SidebarMenuSub>

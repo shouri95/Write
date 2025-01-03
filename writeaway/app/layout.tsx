@@ -27,12 +27,10 @@ export default function RootLayout({
               <div className="absolute top-4 left-4 z-10">
                 <SidebarTrigger className="-ml-1" />
               </div>              
-              {/* View Screenplay button in top right */}             
               <main className="flex flex-1 flex-col w-full h-full">
-                <Canvas />
+                {children}
               </main>
             </div>
-            {children}
           </SidebarInset>
         </SidebarProvider>
       </body>

@@ -57,10 +57,7 @@ export function NavProjects() {
       canvas: "", // Initialize empty canvas
       screenplay: { content: "" },
       scenes: [
-        { id: "scene-1", name: "Scene - 1", content: "" },
-        { id: "scene-2", name: "Scene - 2", content: "" },
-        { id: "scene-3", name: "Scene - 3", content: "" },
-      ]
+        ]
     };
     setProjects([...projects, newProject]);
   };

@@ -7,6 +7,7 @@ export interface Scene {
   export interface Project {
     id: string;
     name: string;
+    activeSection: string;
     sections: {
       canvas: {
         title: string;

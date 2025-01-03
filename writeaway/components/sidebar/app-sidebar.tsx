@@ -14,155 +14,6 @@ import {
 } from "@/components/ui/sidebar"
 import { Button } from "@/components/ui/button"
 
-// This is sample data.
-const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
-  teams: [
-    {
-      name: "WriteAway",
-      logo: GalleryVerticalEnd,
-      plan: "",
-    },
-    {
-      name: "Acme Corp.",
-      logo: AudioWaveform,
-      plan: "Startup",
-    },
-    {
-      name: "Evil Corp.",
-      logo: Command,
-      plan: "Free",
-    },
-  ],
-  navMain: [
-    {
-      title: "Project",
-      url: "#",
-      icon: SquareTerminal,
-      isActive: true,
-      items: [
-        {
-          title: "Scenes",
-          icon: SquareTerminal,
-          isActive: true,           
-          items: [
-            {
-              title: "Scene - 1",
-              url: "#",
-            },
-            {
-              title: "Scene - 2", 
-              url: "#",
-            },
-            {
-              title: "Scene - 3",
-              url: "#",
-            }
-          ]
-        },
-        {
-          title: "History",
-          url: "#",
-        },
-        {
-          title: "Starred",
-          url: "#", 
-        },
-        {
-          title: "Settings",
-          url: "#",
-        }
-      ],
-    },
-    {
-      title: "Models",
-      url: "#",
-      icon: Bot,
-      items: [
-        {
-          title: "Genesis",
-          url: "#",
-        },
-        {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Documentation",
-      url: "#",
-      icon: BookOpen,
-      items: [
-        {
-          title: "Introduction",
-          url: "#",
-        },
-        {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Settings",
-      url: "#",
-      icon: Settings2,
-      items: [
-        {
-          title: "General",
-          url: "#",
-        },
-        {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
-        },
-      ],
-    },
-  ],
-  projects: [
-    {
-      name: "Design Engineering",
-      url: "#",
-      icon: Frame,
-    },
-    {
-      name: "Sales & Marketing",
-      url: "#",
-      icon: PieChart,
-    },
-    {
-      name: "Travel",
-      url: "#",
-      icon: Map,
-    },
-  ],
-}
-
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const [projects, setProjects] = React.useState<Project[]>([]);
 
@@ -170,6 +21,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     const newProject: Project = {
       id: `proj-${Date.now()}`,
       name: `Project ${projects.length + 1}`,
+      activeSection: "canvas",
       sections: {
         canvas: {
           title: "Canvas",
@@ -181,15 +33,21 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         },
         scenes: {
           title: "Scenes",
-          items: [
-            { id: "scene-1", name: "Scene 1", content: "" },
-            { id: "scene-2", name: "Scene 2", content: "" },
-            { id: "scene-3", name: "Scene 3", content: "" }
-          ]
+          items: [],
         }
       }
     };
     setProjects(prevProjects => [...prevProjects, newProject]);
+  };
+
+  const handleSectionSelect = (projectId: string, sectionType: string) => {
+    setProjects(prevProjects => 
+      prevProjects.map(project => 
+        project.id === projectId 
+          ? { ...project, activeSection: sectionType }
+          : project
+      )
+    );
   };
 
   return (
@@ -215,7 +73,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </div>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={projects} />
+        <NavMain 
+          items={projects} 
+          onSectionSelect={handleSectionSelect}
+        />
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={{ name: "User", email: "user@example.com", avatar: "" }} />

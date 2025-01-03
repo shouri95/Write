@@ -62,8 +62,8 @@ export function SettingsDialog({ open, onOpenChange }: SettingsDialogProps) {
           )}
         </Button>
       </DialogTrigger>
-      <DialogOverlay className="rounded-xl">
-        <DialogContent className="overflow-hidden rounded-xl border border-border p-0 h-[800px] md:max-w-[900px] lg:max-w-[1000px] bg-white">
+      <DialogOverlay className="bg-background/80 backdrop-blur-sm">
+        <DialogContent className="overflow-hidden rounded-2xl border border-border p-0 h-[800px] md:max-w-[900px] lg:max-w-[1000px] bg-background shadow-lg">
           <DialogTitle className="sr-only">Settings</DialogTitle>
           <DialogDescription className="sr-only">
             Customize your settings here.
