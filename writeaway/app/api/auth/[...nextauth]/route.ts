@@ -18,21 +18,19 @@ export const authOptions: AuthOptions = {
           throw new Error("Missing email or password");
         }
 
-        // 1) Lookup user by email
         const user = await prisma.user.findUnique({
           where: { email: credentials.email },
         });
+        
         if (!user) {
           throw new Error("No user found");
         }
 
-        // 2) Compare the hashed password
         const isValid = await bcrypt.compare(credentials.password, user.password);
         if (!isValid) {
           throw new Error("Invalid password");
         }
 
-        // 3) Return the user object (will be available in JWT)
         return {
           id: user.id,
           name: user.name,
@@ -41,13 +39,15 @@ export const authOptions: AuthOptions = {
       },
     }),
   ],
-  pages: {
-    // If user goes to a page that requires auth, NextAuth will redirect them here:
-    signIn: "/(auth)/sign-in",
+  session: {
+    strategy: "jwt",
   },
+  pages: {
+    signIn: "/sign-in",
+  },
+  secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     async jwt({ token, user }) {
-      // If 'user' is returned (on initial login), merge it into 'token'.
       if (user) {
         token.id = user.id;
         token.email = user.email;
@@ -55,20 +55,14 @@ export const authOptions: AuthOptions = {
       }
       return token;
     },
-
     async session({ session, token }) {
-      // TS complains about 'session.user' possibly being undefined
-      // and that 'id' doesn't exist. We'll force-cast here:
-      (session.user as any).id = token.id;
-      (session.user as any).email = token.email;
-      (session.user as any).name = token.name;
+      if (session.user) {
+        (session.user as any).id = token.id;
+      }
       return session;
     },
   },
-  // Optionally add a `secret` if needed
-  // secret: process.env.NEXTAUTH_SECRET
 };
 
-// Export NextAuth as GET/POST handlers
 const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };
