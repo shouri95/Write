@@ -1,39 +1,22 @@
-"use client";
+import "./globals.css";
+import { Roboto } from "next/font/google";
+import type { Metadata } from "next";
 
-import { SidebarProvider, Sidebar, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar"
-import { AppSidebar } from "@/components/sidebar/app-sidebar"
-import { Separator } from "@/components/ui/separator";
-import Canvas from "@/components/canvas";
-import Toolbox2 from "@/components/toolbox2"; 
-import "./globals.css"
-import Toolbox1 from "@/components/toolbox1"; 
-import { SettingsDialog } from "@/components/settings-dialog"
+const roboto = Roboto({
+  subsets: ["latin"],
+  weight: ["300", "400", "700"],
+  variable: "--font-roboto",
+});
 
+export const metadata: Metadata = {
+  title: "WriteAway",
+  description: "Public layout (landing, etc.)",
+};
 
-
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="h-full">
-      <body className="h-full flex">
-        <SidebarProvider defaultOpen>
-          <AppSidebar />
-          <SidebarInset className="flex-1 flex flex-col min-h-screen">
-            <div className="h-full flex flex-col relative">
-              {/* Sidebar trigger button in top left */}
-              <div className="absolute top-4 left-4 z-10">
-                <SidebarTrigger className="-ml-1" />
-              </div>              
-              <main className="flex flex-1 flex-col w-full h-full">
-                {children}
-              </main>
-            </div>
-          </SidebarInset>
-        </SidebarProvider>
-      </body>
+    <html lang="en" className={`${roboto.variable} h-full`}>
+      <body className="h-full">{children}</body>
     </html>
-  )
+  );
 }
