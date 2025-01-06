@@ -9,50 +9,40 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useState } from "react";
 
-// Zod schema for sign up
 const SignUpSchema = z.object({
-  name: z.string().min(2, "Name must have at least 2 characters."),
-  email: z.string().email("Invalid email address."),
-  password: z.string().min(6, "Password must be at least 6 characters."),
+  name: z.string().min(2, "Name must have at least 2 chars"),
+  email: z.string().email("Invalid email"),
+  password: z.string().min(6, "At least 6 chars"),
 });
-
-type SignUpFormValues = z.infer<typeof SignUpSchema>;
 
 export default function SignUpPage() {
   const router = useRouter();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  // React Hook Form
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<SignUpFormValues>({
+  } = useForm<z.infer<typeof SignUpSchema>>({
     resolver: zodResolver(SignUpSchema),
   });
 
-  // On form submit, POST to our register endpoint
-  async function onSubmit(data: SignUpFormValues) {
+  async function onSubmit(data: z.infer<typeof SignUpSchema>) {
     setErrorMessage(null);
 
     const res = await fetch("/api/auth/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        name: data.name,
-        email: data.email,
-        password: data.password,
-      }),
+      body: JSON.stringify(data),
     });
 
     if (!res.ok) {
       const { error } = await res.json();
-      setErrorMessage(error || "Something went wrong.");
+      setErrorMessage(error || "Something went wrong");
       return;
     }
 
-    // If success, go to sign-in
-    router.push("/(auth)/sign-in");
+    router.push("/sign-in");
   }
 
   return (
@@ -62,59 +52,31 @@ export default function SignUpPage() {
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>
           <Label htmlFor="name">Name</Label>
-          <Input
-            id="name"
-            type="text"
-            placeholder="Your Name"
-            {...register("name")}
-          />
-          {errors.name && (
-            <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
-          )}
+          <Input id="name" type="text" {...register("name")} />
+          {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
         </div>
 
         <div>
           <Label htmlFor="email">Email</Label>
-          <Input
-            id="email"
-            type="email"
-            placeholder="you@example.com"
-            {...register("email")}
-          />
-          {errors.email && (
-            <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
-          )}
+          <Input id="email" type="email" {...register("email")} />
+          {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
         </div>
 
         <div>
           <Label htmlFor="password">Password</Label>
-          <Input
-            id="password"
-            type="password"
-            placeholder="********"
-            {...register("password")}
-          />
-          {errors.password && (
-            <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
-          )}
+          <Input id="password" type="password" {...register("password")} />
+          {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
         </div>
 
-        {errorMessage && (
-          <p className="text-red-500 text-sm mt-1">{errorMessage}</p>
-        )}
+        {errorMessage && <p className="text-red-500 text-sm">{errorMessage}</p>}
 
-        <Button type="submit" className="w-full">
-          Create Account
-        </Button>
+        <Button type="submit" className="w-full">Create Account</Button>
       </form>
 
       <div className="text-center mt-4">
         <p className="text-sm">
           Already have an account?{" "}
-          <a
-            href="/sign-in"
-            className="text-blue-600 hover:underline font-semibold"
-          >
+          <a href="/sign-in" className="text-blue-600 hover:underline font-semibold">
             Sign In
           </a>
         </p>

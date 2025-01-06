@@ -14,16 +14,14 @@ const roboto = Roboto({
 });
 
 export const metadata: Metadata = {
-  title: "WriteAway - Protected Area",
-  description: "User must be logged in to see this",
+  title: "Protected Layout",
+  description: "Requires login to access",
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const session = await getServerSession(authOptions);
-
-  // If there's no session, redirect user to sign in.
   if (!session) {
-    redirect("/(auth)/sign-in");
+    redirect("/sign-in");
   }
 
   return (

@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 
-export default function RootHome() {
+export default function HomePage() {
   const [projectName, setProjectName] = useState("");
   const router = useRouter();
 
@@ -14,10 +14,10 @@ export default function RootHome() {
 
   return (
     <div className="p-8">
-      <h1 className="text-3xl font-bold mb-4">Protected Dashboard</h1>
+      <h1 className="text-3xl font-bold mb-4">Protected Home</h1>
       <input
         type="text"
-        placeholder="Project name"
+        placeholder="Enter project name"
         value={projectName}
         onChange={(e) => setProjectName(e.target.value)}
         className="border border-gray-300 rounded p-2 w-64 mb-4"
