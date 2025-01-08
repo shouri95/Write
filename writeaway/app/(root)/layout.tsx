@@ -7,6 +7,12 @@ import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/s
 import { AppSidebar } from "@/components/sidebar/app-sidebar";
 import "../globals.css";
 import { Geist, Azeret_Mono as Geist_Mono } from 'next/font/google'
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/components/ui/tabs"
 
 const geistSans = Geist({
   subsets: ['latin'],
@@ -37,8 +43,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
               <div className="absolute top-4 left-4 z-10">
                 <SidebarTrigger className="-ml-1" />
               </div>
-              <main className="flex flex-1 flex-col w-full h-full">{children}</main>
+              <main className="flex flex-1 flex-col w-full h-full">{children}</main>            
             </div>
+
           </SidebarInset>
         </SidebarProvider>
       </body>

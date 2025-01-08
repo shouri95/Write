@@ -1,5 +1,6 @@
 "use client"
 
+/** @jsxImportSource react */
 import * as React from "react"
 import { Plus, Folder, GalleryVerticalEnd, AudioWaveform, Command, SquareTerminal, Bot, BookOpen, Settings2, Frame, PieChart, Map } from "lucide-react"
 import { NavMain } from "@/components/sidebar/nav-main"
