@@ -1,0 +1,23 @@
+{
+  "name": "landing-page",
+  "version": "1.0.0",
+  "description": "A minimal landing page with a white gradient background and shadcn design.",
+  "main": "src/app/page.tsx",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "next": "^11.1.0",
+    "tailwindcss": "^2.2.19"
+  },
+  "devDependencies": {
+    "typescript": "^4.4.4",
+    "@types/react": "^17.0.2",
+    "@types/react-dom": "^17.0.2"
+  },
+  "license": "MIT"
+}

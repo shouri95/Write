@@ -6,15 +6,18 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/sidebar/app-sidebar";
 import "../globals.css";
+import { Geist, Azeret_Mono as Geist_Mono } from 'next/font/google'
 
-const roboto = Roboto({
-  subsets: ["latin"],
-  weight: ["300", "400", "700"],
-  variable: "--font-roboto",
-});
-
+const geistSans = Geist({
+  subsets: ['latin'],
+  variable: '--font-sans',
+})
+const geistMono = Geist_Mono({
+  subsets: ['latin'],
+  variable: '--font-mono',
+})
 export const metadata: Metadata = {
-  title: "Protected Layout",
+  title: "WriteAway",
   description: "Requires login to access",
 };
 
@@ -25,7 +28,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   }
 
   return (
-    <html lang="en" className={`${roboto.variable} h-full`}>
+    <html lang="en" className={`${geistSans.variable} h-full`}>
       <body className="h-full flex">
         <SidebarProvider defaultOpen>
           <AppSidebar />

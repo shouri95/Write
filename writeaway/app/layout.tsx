@@ -1,12 +1,17 @@
 import "./globals.css";
-import { Roboto } from "next/font/google";
+import { GeistSans } from "geist/font/sans";
+import { GeistMono } from "geist/font/mono";
+import { Geist, Azeret_Mono as Geist_Mono } from 'next/font/google'
 import type { Metadata } from "next";
 
-const roboto = Roboto({
-  subsets: ["latin"],
-  weight: ["300", "400", "700"],
-  variable: "--font-roboto",
-});
+const geistSans = Geist({
+  subsets: ['latin'],
+  variable: '--font-sans',
+})
+const geistMono = Geist_Mono({
+  subsets: ['latin'],
+  variable: '--font-mono',
+})
 
 export const metadata: Metadata = {
   title: "WriteAway",
@@ -15,8 +20,12 @@ export const metadata: Metadata = {
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${roboto.variable} h-full`}>
-      <body className="h-full">{children}</body>
+    <html lang="en">
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased bg-background text-foreground`}
+      >
+        {children}
+      </body>
     </html>
-  );
+  )
 }
