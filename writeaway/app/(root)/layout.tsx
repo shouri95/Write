@@ -13,6 +13,7 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs"
+import ScreenplayPage from "./screenplay/page";
 
 const geistSans = Geist({
   subsets: ['latin'],
@@ -45,7 +46,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
               </div>
               <main className="flex flex-1 flex-col w-full h-full">{children}</main>            
             </div>
-
           </SidebarInset>
         </SidebarProvider>
       </body>

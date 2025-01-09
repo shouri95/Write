@@ -1,21 +1,22 @@
+// File: components/sidebar/nav-main.tsx
+
 "use client"
 
 import { ChevronRight, Folder, FileText, Folders, Frame } from "lucide-react"
 import { Project } from "./types"
-import { useRouter } from "next/navigation"  // Add this import at the top
+import { useRouter } from "next/navigation"
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible"
-import { Button } from "@/components/ui/button" // Add Button import
+import { Button } from "@/components/ui/button"
 import {
   SidebarGroup,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarMenuSub,
-  SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar"
 
@@ -25,16 +26,32 @@ interface NavMainProps {
 }
 
 export function NavMain({ items, onSectionSelect }: NavMainProps) {
-  const router = useRouter();  // Add router
+  const router = useRouter();
 
   return (
     <SidebarGroup>
       <SidebarMenu>
         {items?.map((project) => (
-          <Collapsible key={project.id} asChild className="group/collapsible">
-            <SidebarMenuItem>
+          <Collapsible
+            key={project.id}
+            asChild
+            className="group/collapsible mb-2"
+          >
+            {/* 
+              We can style each SidebarMenuItem as a small "card" 
+              with the background color from project.color
+            */}
+            <SidebarMenuItem
+              style={{
+                backgroundColor: project.color || "#f5f5f5",
+                borderRadius: "0.5rem",
+                padding: "0.4rem",
+                boxShadow: "0 1px 2px rgba(0,0,0,0.05)",
+              }}
+              className="group/menu-item"
+            >
               <CollapsibleTrigger asChild>
-                <SidebarMenuButton>
+                <SidebarMenuButton className="rounded-md">
                   <Folder className="h-4 w-4" />
                   <span>{project.name}</span>
                   <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
@@ -49,8 +66,8 @@ export function NavMain({ items, onSectionSelect }: NavMainProps) {
                         size="sm"
                         className="w-full justify-start gap-2 px-2 py-1 h-9 text-sm font-normal"
                         onClick={() => {
-                          onSectionSelect(project.id, 'canvas');
-                          router.push('/canvas');
+                          onSectionSelect(project.id, "canvas");
+                          router.push("/canvas");
                         }}
                       >
                         <Frame className="h-4 w-4" />
@@ -60,18 +77,18 @@ export function NavMain({ items, onSectionSelect }: NavMainProps) {
                   )}
 
                   <SidebarMenuSubItem>
-                  <Button
+                    <Button
                       variant="ghost"
                       size="sm"
                       className="w-full justify-start gap-2 px-2 py-1 h-9 text-sm font-normal"
                       onClick={() => {
-                        onSectionSelect(project.id, 'screenplay');
-                        router.push('/screenplay');
+                        onSectionSelect(project.id, "screenplay");
+                        router.push("/screenplay");
                       }}
                     >
                       <Frame className="h-4 w-4" />
-                        Screenplay
-                      </Button>
+                      Screenplay
+                    </Button>
                   </SidebarMenuSubItem>
 
                   <Collapsible asChild className="group/scenes">

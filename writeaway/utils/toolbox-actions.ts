@@ -10,11 +10,13 @@ export function initToolboxActions(
   setNodes: Dispatch<SetStateAction<Node[]>>,
   setEdges: Dispatch<SetStateAction<Edge[]>>
 ) {
+  console.log('Initializing toolbox actions'); // Add this
   setNodesRef = setNodes;
   setEdgesRef = setEdges;
 }
 
 export function onAdd() {
+  console.log('onAdd called, setNodesRef exists:', !!setNodesRef); // Add this
   if (!setNodesRef) return;
 
   setNodesRef((prevNodes) => {

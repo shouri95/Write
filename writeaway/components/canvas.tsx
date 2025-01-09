@@ -40,6 +40,12 @@ const initialNodes: Node[] = [
 const initialEdges: Edge[] = [];
 
 export default function Canvas() {
+  const [isClient, setIsClient] = useState(false);
+  
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   const reactFlowInstance = useRef<ReactFlowInstance | null>(null);
   const viewportRef = useRef<Viewport | null>(null);
   const edgeUpdateSuccessful = useRef(true);
@@ -130,6 +136,10 @@ export default function Canvas() {
     }),
     [expandedNode, handleExpand, selectedNodeId, setNodes, setEdges]
   );
+
+  if (!isClient) {
+    return <div style={{ width: "100%", height: "100vh" }} />;
+  }
 
   return (
     <div style={{ width: "100%", height: "100vh" }}>

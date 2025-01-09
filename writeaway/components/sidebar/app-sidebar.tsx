@@ -1,8 +1,9 @@
+// File: components/sidebar/app-sidebar.tsx
+
 "use client"
 
-/** @jsxImportSource react */
 import * as React from "react"
-import { Plus, Folder, GalleryVerticalEnd, AudioWaveform, Command, SquareTerminal, Bot, BookOpen, Settings2, Frame, PieChart, Map } from "lucide-react"
+import { Plus } from "lucide-react"
 import { NavMain } from "@/components/sidebar/nav-main"
 import { NavUser } from "@/components/sidebar/nav-user"
 import { Project } from "./types"
@@ -15,6 +16,22 @@ import {
 } from "@/components/ui/sidebar"
 import { Button } from "@/components/ui/button"
 
+// Helper function to return a random pastel/light color
+function getRandomLightColor(): string {
+  const pastelColors = [
+    "#FDECEC", // light red
+    "#FCEEDC", // light orange
+    "#F9F8E3", // light yellow
+    "#EAF8EC", // light green
+    "#E8F6F8", // light teal
+    "#F0ECF8", // light purple
+    "#FDEDFE", // light pink
+    "#ECF7FD", // light blue
+  ]
+  const randomIndex = Math.floor(Math.random() * pastelColors.length)
+  return pastelColors[randomIndex]
+}
+
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const [projects, setProjects] = React.useState<Project[]>([]);
 
@@ -23,6 +40,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       id: `proj-${Date.now()}`,
       name: `Project ${projects.length + 1}`,
       activeSection: "canvas",
+      // Generate a random color for the card background:
+      color: getRandomLightColor(),
       sections: {
         canvas: {
           title: "Canvas",
@@ -42,9 +61,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   };
 
   const handleSectionSelect = (projectId: string, sectionType: string) => {
-    setProjects(prevProjects => 
-      prevProjects.map(project => 
-        project.id === projectId 
+    setProjects(prevProjects =>
+      prevProjects.map(project =>
+        project.id === projectId
           ? { ...project, activeSection: sectionType }
           : project
       )
@@ -74,10 +93,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </div>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain 
-          items={projects} 
-          onSectionSelect={handleSectionSelect}
-        />
+        <NavMain items={projects} onSectionSelect={handleSectionSelect} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={{ name: "User", email: "user@example.com", avatar: "" }} />
